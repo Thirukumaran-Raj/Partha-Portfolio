@@ -1,0 +1,624 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Parthasarathy - 3D Artist specializing in Blender modeling, texturing, lighting and rendering." />
+  <meta name="theme-color" content="#f6f1e9" />
+  <title>Parthasarathy | 3D Artist · Blender</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@600;700;800&display=swap" rel="stylesheet" />
+
+  <style>
+    /* ==========================================================
+       Design tokens: warm studio theme
+       ========================================================== */
+    :root {
+      --bg: #f6f1e9;
+      --bg-alt: #efe7da;
+      --surface: #fffdf9;
+      --surface-2: #f1e9dc;
+      --text: #1f1b16;
+      --muted: #6b6257;
+      --accent: #b8532b;
+      --accent-2: #d89b55;
+      --accent-soft: #f6e3d6;
+      --border: #e3d8c7;
+      --radius: 20px;
+      --shadow: 0 18px 40px rgba(64, 42, 20, 0.10);
+      --shadow-sm: 0 6px 18px rgba(64, 42, 20, 0.08);
+      --header-h: 72px;
+      --font-sans: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+      --font-serif: "Playfair Display", Georgia, "Times New Roman", serif;
+    }
+
+    /* ==========================================================
+       Base
+       ========================================================== */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; scroll-padding-top: calc(var(--header-h) + 12px); }
+    body {
+      font-family: var(--font-sans);
+      background: var(--bg); color: var(--text);
+      line-height: 1.65; -webkit-font-smoothing: antialiased;
+    }
+    img, video { max-width: 100%; display: block; }
+    a { color: inherit; text-decoration: none; }
+    :focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 6px; }
+
+    .skip-link {
+      position: absolute; left: 16px; top: -48px; z-index: 200;
+      background: var(--accent); color: #fff; padding: 10px 16px; border-radius: 10px;
+      font-weight: 600; transition: top .2s;
+    }
+    .skip-link:focus { top: 16px; }
+
+    section { padding: 104px 0; }
+    .container { width: min(1200px, 92%); margin: 0 auto; }
+
+    .eyebrow {
+      color: var(--accent); font-weight: 600; font-size: 0.8rem;
+      text-transform: uppercase; letter-spacing: .18em; margin-bottom: 14px;
+      display: inline-flex; align-items: center; gap: 10px;
+    }
+    .eyebrow::before { content: ""; width: 28px; height: 1px; background: var(--accent); }
+
+    .section-title {
+      font-family: var(--font-serif);
+      font-size: clamp(2.1rem, 3.6vw, 3rem); font-weight: 700;
+      letter-spacing: -0.01em; line-height: 1.15; margin-bottom: 14px;
+    }
+    .section-sub { color: var(--muted); max-width: 620px; margin-bottom: 52px; font-size: 1.05rem; }
+    .accent-text { color: var(--accent); font-style: italic; }
+
+    /* ==========================================================
+       Header / Navigation
+       ========================================================== */
+    .site-header {
+      position: fixed; inset: 0 0 auto 0; z-index: 100;
+      backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
+      background: rgba(246, 241, 233, 0.82);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav { display: flex; align-items: center; justify-content: space-between; height: var(--header-h); }
+    .logo {
+      font-family: var(--font-serif); font-weight: 700; font-size: 1.25rem; letter-spacing: -0.01em;
+    }
+    .logo .accent-text { font-style: normal; }
+    .nav-links { display: flex; gap: 32px; list-style: none; }
+    .nav-links a {
+      color: var(--muted); font-weight: 500; font-size: 0.93rem;
+      position: relative; transition: color .2s;
+    }
+    .nav-links a::after {
+      content: ""; position: absolute; left: 0; bottom: -6px; width: 0; height: 2px;
+      background: var(--accent); transition: width .25s;
+    }
+    .nav-links a:hover { color: var(--text); }
+    .nav-links a:hover::after { width: 100%; }
+    .menu-toggle {
+      display: none; align-items: center; justify-content: center;
+      width: 42px; height: 42px; border-radius: 12px; cursor: pointer;
+      background: var(--surface); border: 1px solid var(--border); color: var(--text); font-size: 1.1rem;
+    }
+
+    /* ==========================================================
+       Buttons
+       ========================================================== */
+    .btn {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 13px 26px; border-radius: 999px;
+      font-weight: 600; font-size: 0.95rem; border: 1px solid transparent;
+      transition: transform .2s, box-shadow .2s, background .2s, border-color .2s, color .2s;
+    }
+    .btn:hover { transform: translateY(-2px); }
+    .btn-primary { background: var(--accent); color: #fff; box-shadow: 0 12px 26px rgba(184, 83, 43, .28); }
+    .btn-primary:hover { background: #a3461f; }
+    .btn-ghost { background: transparent; border-color: var(--text); color: var(--text); }
+    .btn-ghost:hover { background: var(--text); color: var(--bg); }
+    .btn-row { display: flex; flex-wrap: wrap; gap: 14px; }
+
+    /* ==========================================================
+       Hero
+       ========================================================== */
+    .hero {
+      min-height: 100vh; display: flex; align-items: center;
+      padding-top: var(--header-h); position: relative; overflow: hidden;
+    }
+    .hero::before {
+      content: ""; position: absolute; width: 560px; height: 560px; top: -180px; right: -180px;
+      background: radial-gradient(circle, rgba(216, 155, 85, .28), transparent 70%);
+      pointer-events: none;
+    }
+    .hero-grid {
+      display: grid; grid-template-columns: 1.1fr 1fr; gap: 72px;
+      align-items: center; position: relative;
+    }
+    .hero h1 {
+      font-family: var(--font-serif);
+      font-size: clamp(2.8rem, 6.4vw, 4.9rem); font-weight: 800;
+      line-height: 1.04; letter-spacing: -0.02em; margin-bottom: 20px;
+    }
+    .role {
+      font-size: clamp(1.05rem, 2vw, 1.25rem); color: var(--accent);
+      font-weight: 500; margin-bottom: 20px;
+    }
+    .intro { color: var(--muted); max-width: 520px; margin-bottom: 36px; font-size: 1.05rem; }
+
+    .hero-visual {
+      aspect-ratio: 4 / 5; border-radius: 32px; overflow: hidden; position: relative;
+      background: var(--surface-2); border: 8px solid var(--surface);
+      box-shadow: var(--shadow);
+    }
+    .hero-visual img {
+      position: absolute; inset: 0; width: 100%; height: 100%;
+      object-fit: cover; object-position: top;
+    }
+
+    /* ==========================================================
+       About
+       ========================================================== */
+    section#about { background: var(--bg-alt); }
+    .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: start; }
+    .about-grid p { color: var(--muted); margin-bottom: 18px; font-size: 1.05rem; }
+    .pill-list { display: flex; flex-wrap: wrap; gap: 10px; }
+    .pill {
+      padding: 8px 18px; border-radius: 999px; font-size: 0.9rem; font-weight: 500;
+      background: var(--surface); border: 1px solid var(--border); color: var(--text);
+    }
+
+    /* ==========================================================
+       Skills
+       ========================================================== */
+    .skills-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 22px; }
+    .skill-card {
+      background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius);
+      padding: 30px; box-shadow: var(--shadow-sm);
+      transition: transform .25s, box-shadow .25s;
+    }
+    .skill-card:hover { transform: translateY(-4px); box-shadow: var(--shadow); }
+    .skill-card h3 { font-size: 1.15rem; font-weight: 700; margin-bottom: 14px; }
+    .skill-card p { color: var(--muted); font-size: 0.93rem; }
+    .bar { height: 6px; background: var(--surface-2); border-radius: 999px; overflow: hidden; margin-bottom: 16px; }
+    .bar > span {
+      display: block; height: 100%; border-radius: 999px;
+      background: linear-gradient(90deg, var(--accent), var(--accent-2));
+    }
+
+    /* ==========================================================
+       Videos
+       ========================================================== */
+    .video-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: 28px; }
+    .video-card {
+      background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius);
+      overflow: hidden; box-shadow: var(--shadow-sm);
+    }
+    .video-card video { width: 100%; background: #1f1b16; aspect-ratio: 16 / 9; }
+    .video-card video.wide { aspect-ratio: 1918 / 814; }
+    .video-info { padding: 22px 26px; }
+    .video-info h3 { font-family: var(--font-serif); font-size: 1.3rem; font-weight: 700; margin-bottom: 6px; }
+    .video-info p { color: var(--muted); font-size: 0.93rem; }
+
+    /* ==========================================================
+       Projects
+       ========================================================== */
+    .project {
+      display: grid; grid-template-columns: 1.2fr 1fr; gap: 48px; align-items: center;
+      padding: 48px 0; border-bottom: 1px solid var(--border);
+    }
+    .project:last-child { border-bottom: none; }
+    .project.reverse { grid-template-columns: 1fr 1.2fr; }
+    .project.reverse .project-media { order: 2; }
+    .project-media {
+      aspect-ratio: 16 / 10; border-radius: var(--radius); overflow: hidden;
+      border: 8px solid var(--surface); box-shadow: var(--shadow);
+      background: var(--surface-2);
+    }
+    .project-media img { width: 100%; height: 100%; object-fit: cover; }
+    .project-meta {
+      color: var(--accent); font-size: 0.8rem; font-weight: 600;
+      text-transform: uppercase; letter-spacing: .14em; margin-bottom: 12px;
+    }
+    .project h3 { font-family: var(--font-serif); font-size: 2rem; font-weight: 700; line-height: 1.2; margin-bottom: 14px; }
+    .project p { color: var(--muted); margin-bottom: 20px; }
+    .tags { display: flex; flex-wrap: wrap; gap: 8px; }
+    .tag {
+      font-size: 0.8rem; font-weight: 500; padding: 6px 12px; border-radius: 999px;
+      background: var(--accent-soft); color: var(--accent);
+    }
+
+    /* ==========================================================
+       Process
+       ========================================================== */
+    section#process { background: var(--bg-alt); }
+    .process-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 22px; }
+    .step {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 30px; box-shadow: var(--shadow-sm);
+    }
+    .step-num {
+      font-family: var(--font-serif); font-size: 2.2rem; font-weight: 700;
+      color: var(--accent-2); margin-bottom: 12px; line-height: 1;
+    }
+    .step h3 { font-size: 1.1rem; font-weight: 700; margin-bottom: 8px; }
+    .step p { color: var(--muted); font-size: 0.93rem; }
+
+    /* ==========================================================
+       Contact
+       ========================================================== */
+    .contact-wrap { text-align: center; }
+    .contact-wrap .eyebrow { justify-content: center; }
+    .contact-wrap .eyebrow::before { display: none; }
+    .contact-wrap .section-sub { margin-left: auto; margin-right: auto; }
+    .contact-links { display: flex; flex-wrap: wrap; justify-content: center; gap: 14px; margin-top: 34px; }
+    .contact-info { margin-top: 40px; color: var(--muted); font-size: 0.95rem; line-height: 2; }
+
+    /* ==========================================================
+       Footer
+       ========================================================== */
+    .site-footer {
+      border-top: 1px solid var(--border); padding: 30px 0;
+      text-align: center; color: var(--muted); font-size: 0.9rem;
+    }
+
+    /* ==========================================================
+       Scroll reveal
+       ========================================================== */
+    .reveal { opacity: 0; transform: translateY(24px); transition: opacity .8s ease, transform .8s ease; }
+    .reveal.is-visible { opacity: 1; transform: none; }
+
+    /* ==========================================================
+       Responsive
+       ========================================================== */
+    @media (max-width: 900px) {
+      section { padding: 76px 0; }
+      .hero-grid, .about-grid { grid-template-columns: 1fr; gap: 48px; }
+      .hero { text-align: center; }
+      .hero .eyebrow { justify-content: center; }
+      .hero .eyebrow::before { display: none; }
+      .intro { margin-left: auto; margin-right: auto; }
+      .btn-row { justify-content: center; }
+      .hero-visual { max-width: 420px; margin: 0 auto; width: 100%; }
+      .project, .project.reverse { grid-template-columns: 1fr; gap: 28px; }
+      .project.reverse .project-media { order: 0; }
+    }
+
+    @media (max-width: 720px) {
+      .menu-toggle { display: inline-flex; }
+      .nav-links {
+        position: absolute; top: var(--header-h); left: 0; right: 0;
+        flex-direction: column; gap: 0;
+        background: var(--surface); border-bottom: 1px solid var(--border);
+        max-height: 0; overflow: hidden; transition: max-height .3s ease;
+      }
+      .nav-links.is-open { max-height: 420px; }
+      .nav-links a { display: block; padding: 16px 4%; }
+      .nav-links a::after { display: none; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      *, *::before, *::after { transition: none !important; }
+      .reveal { opacity: 1; transform: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="site-header">
+    <nav class="container nav" aria-label="Main navigation">
+      <a href="#home" class="logo">Parthasarathy<span class="accent-text">.3D</span></a>
+
+      <ul class="nav-links" id="nav-links">
+        <li><a href="#about">About</a></li>
+        <li><a href="#skills">Skills</a></li>
+        <li><a href="#videos">Videos</a></li>
+        <li><a href="#projects">Projects</a></li>
+        <li><a href="#process">Process</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+
+      <button class="menu-toggle" id="menu-toggle" aria-label="Open menu" aria-expanded="false" aria-controls="nav-links">☰</button>
+    </nav>
+  </header>
+
+  <main id="main">
+
+    <!-- Hero -->
+    <section class="hero" id="home">
+      <div class="container hero-grid">
+        <div class="reveal">
+          <p class="eyebrow">3D Artist · Blender</p>
+          <h1>Hi, I'm <span class="accent-text">Parthasarathy</span></h1>
+          <p class="role">Blender Artist · Modeling · Lighting · Rendering</p>
+          <p class="intro">
+            I create stylized and realistic 3D scenes, props and characters in Blender,
+            from first sketch to final render. Every shot is built with attention to form, light and detail.
+          </p>
+          <div class="btn-row">
+            <a class="btn btn-primary" href="#projects">View Projects →</a>
+            <a class="btn btn-ghost" href="#contact">Get in Touch</a>
+          </div>
+        </div>
+        <div class="hero-visual reveal">
+          <img src="PP Passport.jpeg" alt="Portrait of Parthasarathy, 3D Artist" />
+        </div>
+      </div>
+    </section>
+
+    <!-- About -->
+    <section id="about">
+      <div class="container about-grid reveal">
+        <div>
+          <p class="eyebrow">About</p>
+          <h2 class="section-title">Turning ideas into <span class="accent-text">3D worlds</span></h2>
+        </div>
+        <div>
+          <p>
+            I'm a 3D artist focused on Blender. My work covers hard-surface modeling, environment
+            building, texturing, lighting and final rendering. I enjoy the full pipeline, from blocking
+            out a scene to fine-tuning materials and composition.
+          </p>
+          <p>
+            I'm always learning new techniques and looking for projects where I can grow my craft
+            and contribute to a creative team.
+          </p>
+          <div class="pill-list">
+            <span class="pill">Blender</span>
+            <span class="pill">Hard-surface</span>
+            <span class="pill">Environment Design</span>
+            <span class="pill">Lighting</span>
+            <span class="pill">Rendering</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Skills -->
+    <section id="skills">
+      <div class="container reveal">
+        <p class="eyebrow">Skills</p>
+        <h2 class="section-title">What I <span class="accent-text">do</span></h2>
+        <p class="section-sub">Core areas of the 3D pipeline I work in. Adjust the levels to match your own skills.</p>
+
+        <div class="skills-grid">
+          <article class="skill-card">
+            <h3>Modeling</h3>
+            <div class="bar" role="img" aria-label="Proficiency 85%"><span style="width: 85%"></span></div>
+            <p>Hard-surface and organic modeling, with clean topology and proper edge flow.</p>
+          </article>
+          <article class="skill-card">
+            <h3>Texturing &amp; Materials</h3>
+            <div class="bar" role="img" aria-label="Proficiency 80%"><span style="width: 80%"></span></div>
+            <p>Shader node setups, UV unwrapping, procedural and image-based textures.</p>
+          </article>
+          <article class="skill-card">
+            <h3>Lighting &amp; Rendering</h3>
+            <div class="bar" role="img" aria-label="Proficiency 82%"><span style="width: 82%"></span></div>
+            <p>Three-point and mood lighting, Cycles and Eevee rendering, and compositing.</p>
+          </article>
+          <article class="skill-card">
+            <h3>Sculpting</h3>
+            <div class="bar" role="img" aria-label="Proficiency 70%"><span style="width: 70%"></span></div>
+            <p>Detailing characters and props with brushes, dynamic topology and retopology.</p>
+          </article>
+          <article class="skill-card">
+            <h3>Animation</h3>
+            <div class="bar" role="img" aria-label="Proficiency 65%"><span style="width: 65%"></span></div>
+            <p>Basic rigging, keyframe animation and camera movement.</p>
+          </article>
+          <article class="skill-card">
+            <h3>Post-Production</h3>
+            <div class="bar" role="img" aria-label="Proficiency 75%"><span style="width: 75%"></span></div>
+            <p>Color grading and finishing touches in Photoshop or Blender's compositor.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- Videos -->
+    <section id="videos">
+      <div class="container reveal">
+        <p class="eyebrow">Animation</p>
+        <h2 class="section-title">Motion <span class="accent-text">showreel</span></h2>
+        <p class="section-sub">Short Blender animations and motion work.</p>
+
+        <div class="video-grid">
+          <article class="video-card">
+            <video controls preload="metadata" playsinline>
+              <source src="Nesa.mp4" type="video/mp4" />
+              Your browser does not support the video tag.
+            </video>
+            <div class="video-info">
+              <h3>Cinematic Text Animation</h3>
+              <p>Short Blender animation. Add a one-line description of what it shows.</p>
+            </div>
+          </article>
+
+          <article class="video-card">
+            <video controls preload="metadata" playsinline>
+              <source src="Parani.mp4" type="video/mp4" />
+              Your browser does not support the video tag.
+            </video>
+            <div class="video-info">
+              <h3>Factory with Title Animation</h3>
+              <p>Short Blender animation. Add a one-line description of what it shows.</p>
+            </div>
+          </article>
+
+          <article class="video-card">
+              <video controls preload="metadata" playsinline>
+                <source src="Video.mp4" type="video/mp4" />
+                Your browser does not support the video tag.
+              </video>
+              <div class="video-info">
+                <h3>Introduction</h3>
+                <p>A Blender animation introducing the project with a cinematic factory scene and title animation.</p>
+              </div>
+            </article>
+
+            <article class="video-card">
+              <video controls preload="metadata" playsinline>
+                <source src="Title Card.mp4" type="video/mp4" />
+                Your browser does not support the video tag.
+              </video>
+              <div class="video-info">
+                <h3>Title Card</h3>
+                <p>A creative title card animation showcasing typography and motion design using Blender.</p>
+              </div>
+            </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- Projects -->
+    <section id="projects">
+      <div class="container reveal">
+        <p class="eyebrow">Projects</p>
+        <h2 class="section-title">Featured <span class="accent-text">work</span></h2>
+        <p class="section-sub">A few projects, the goal behind each one, and the tools I used.</p>
+
+        <article class="project">
+          <div class="project-media">
+            <img src="Cups and table.png" alt="Until the Last Drop - coffee cups on a wooden table, Blender render" loading="lazy" />
+          </div>
+          <div>
+            <p class="project-meta">Environment · 2026 · My First Project</p>
+            <h3>Until the Last Drop</h3>
+            <p>
+              My first Blender project. A wooden table scene with two coffee cups and 3D typography,
+              focused on warm wood materials, soft shadows and a single window-style light source for mood.
+            </p>
+            <div class="tags">
+              <span class="tag">Blender</span>
+              <span class="tag">Cycles</span>
+              <span class="tag">Texturing</span>
+              <span class="tag">Lighting</span>
+            </div>
+          </div>
+        </article>
+
+        <article class="project reverse">
+          <div class="project-media">
+            <img src="Glasses.png" alt="Wooden chairs and a glass table scene with glasses and a bottle, Blender render" loading="lazy" />
+          </div>
+          <div>
+            <p class="project-meta">Interior · 2026 · Project Two</p>
+            <h3>Wooden Lounge Scene</h3>
+            <p>
+              A wooden lounge setup with armchairs, a wooden side table and glass tumblers and a bottle.
+              Focused on realistic wood textures, glass refraction and soft studio-style lighting.
+            </p>
+            <div class="tags">
+              <span class="tag">Blender</span>
+              <span class="tag">Cycles</span>
+              <span class="tag">Glass Shader</span>
+              <span class="tag">Wood Texturing</span>
+            </div>
+          </div>
+        </article>
+
+        
+        <article class="project">
+          <div class="project-media">
+            <img src="Police.jpeg" alt="Police office interior scene created in Blender" loading="lazy" />
+          </div>
+          <div>
+            <p class="project-meta">Environment · 2026 · Project Three</p>
+            <h3>Police Office Scene</h3>
+            <p>
+              A realistic 3D police office environment created in Blender.
+              The scene features an office desk, chair, computer setup and
+              police signage, with dramatic lighting and contrasting red
+              and blue highlights to create a cinematic atmosphere.
+            </p>
+            <div class="tags">
+              <span class="tag">Blender</span>
+              <span class="tag">Environment Design</span>
+              <span class="tag">Modeling</span>
+              <span class="tag">Lighting</span>
+              <span class="tag">Rendering</span>
+            </div>
+          </div>
+        </article>
+
+      </div>
+    </section>
+
+    <!-- Process -->
+    <section id="process">
+      <div class="container reveal">
+        <p class="eyebrow">Process</p>
+        <h2 class="section-title">How I <span class="accent-text">work</span></h2>
+        <p class="section-sub">Every piece follows the same pipeline, so the final result is consistent and polished.</p>
+
+        <div class="process-grid">
+          <div class="step"><div class="step-num">01</div><h3>Concept &amp; Reference</h3><p>Gathering references and planning composition, mood and scale.</p></div>
+          <div class="step"><div class="step-num">02</div><h3>Modeling</h3><p>Blocking out forms, then refining geometry and topology.</p></div>
+          <div class="step"><div class="step-num">03</div><h3>Texturing</h3><p>UV unwrapping, materials and surface detail.</p></div>
+          <div class="step"><div class="step-num">04</div><h3>Lighting</h3><p>Setting up lights and camera to shape the mood.</p></div>
+          <div class="step"><div class="step-num">05</div><h3>Render &amp; Finish</h3><p>Final render, compositing and color grading.</p></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Contact -->
+    <section id="contact">
+      <div class="container contact-wrap reveal">
+        <p class="eyebrow">Contact</p>
+        <h2 class="section-title">Let's create <span class="accent-text">something</span></h2>
+        <p class="section-sub">Open for freelance projects, collaborations and full-time 3D roles. Let's talk.</p>
+
+        <div class="contact-links">
+          <a class="btn btn-primary" href="mailto:parthasarathy0910@gmail.com">✉ Email Me</a>
+          <a class="btn btn-ghost" href="https://www.linkedin.com/in/partha-sarathy-970b892a2" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+          <a class="btn btn-ghost" href="https://wa.me/919944765625" target="_blank" rel="noopener noreferrer">WhatsApp</a>
+        </div>
+
+        <div class="contact-info">
+          parthasarathy0910@gmail.com<br />
+          +91 80728 27841 · +91 99447 65625
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">© <span id="year"></span> Parthasarathy · Made in Blender</div>
+  </footer>
+
+  <script>
+    (() => {
+      document.getElementById("year").textContent = new Date().getFullYear();
+
+      const toggle = document.getElementById("menu-toggle");
+      const menu = document.getElementById("nav-links");
+
+      const setMenu = open => {
+        menu.classList.toggle("is-open", open);
+        toggle.setAttribute("aria-expanded", String(open));
+        toggle.setAttribute("aria-label", open ? "Close menu" : "Open menu");
+      };
+
+      toggle.addEventListener("click", () => setMenu(!menu.classList.contains("is-open")));
+      menu.querySelectorAll("a").forEach(link => link.addEventListener("click", () => setMenu(false)));
+
+      const observer = new IntersectionObserver(entries => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("is-visible");
+            observer.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.12 });
+
+      document.querySelectorAll(".reveal").forEach(el => observer.observe(el));
+    })();
+  </script>
+</body>
+</html>
